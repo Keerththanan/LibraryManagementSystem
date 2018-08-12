@@ -24,7 +24,8 @@ public class SubClassificationDAO {
     public static void SaveSubClassification(SubClassification sClassification){
         String sID = sClassification.getsClassificationID();
         String Name = sClassification.getsClassificationName();
-        String mID = sClassification.getmClassificationName();
+        String mName = sClassification.getmClassificationName();
+        String mId = null;
         
         
         String insertQuery = "INSERT INTO sub_classification (subId, sClassificationName, mClassificationId) VALUES(?, ?, ?)"; //This is how the query should be written for PREPAREDSTATEMENT
@@ -34,6 +35,7 @@ public class SubClassificationDAO {
             pStatement = connection.prepareStatement(insertQuery);
             pStatement.setString(1, sID);
             pStatement.setString(2, Name);
+            mID = getMCID(mName);
             pStatement.setString(3, mID);
 
             
@@ -43,10 +45,23 @@ public class SubClassificationDAO {
         }
         catch(Exception e){
             System.out.println("Error... " + e);
+        }   
+    }
+    
+    public static String getMCID(String mcName){
+        String mcID = null;
+        String query;
+        query = "SELECT mainId FROM main_classification as mc WHERE mc.mClassificationName = '"+mcName+"';";
+        try{
+            connection = DBConnector.connect();
+            resultSet = statement.executeQuery(query);
+
+            mcID = resultSet.getString("mainId");
         }
-        
-        
-        
+        catch(Exception e){
+            System.out.println("Error on Searching: " + e);
+        }
+        return mcID;
     }
     
 }
