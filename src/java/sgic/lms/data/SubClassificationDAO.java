@@ -5,10 +5,10 @@
  */
 package sgic.lms.data;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sgic.lms.model.SubClassification;
 
 /**
@@ -24,7 +24,8 @@ public class SubClassificationDAO {
     public static void SaveSubClassification(SubClassification sClassification){
         String sID = sClassification.getsClassificationID();
         String Name = sClassification.getsClassificationName();
-        String mID = sClassification.getmClassificationName();
+        String mName = sClassification.getmClassificationName();
+        String mID = null;
         
         
         String insertQuery = "INSERT INTO sub_classification (subId, sClassificationName, mClassificationId) VALUES(?, ?, ?)"; //This is how the query should be written for PREPAREDSTATEMENT
@@ -34,19 +35,56 @@ public class SubClassificationDAO {
             pStatement = connection.prepareStatement(insertQuery);
             pStatement.setString(1, sID);
             pStatement.setString(2, Name);
+            mID = getMCID(mName);
             pStatement.setString(3, mID);
-
-            
             pStatement.executeUpdate();
-            System.out.println();
+            System.out.println("####################");
 
         }
-        catch(Exception e){
+        catch(SQLException e){
             System.out.println("Error... " + e);
-        }
-        
-        
-        
+        }   
     }
     
+    public static String getMCID(String mcName){
+        String mcID = null;
+        String query = "SELECT mainId FROM main_classification as mc WHERE mc.mClassificationName = '"+mcName+"';";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+      
+            while(resultSet.next()){
+                mcID = resultSet.getString("mainId");
+            }    
+        }
+        catch(Exception e){
+            System.out.println("Error on Searching: " + e);
+        }
+        return mcID;
+    }
+    
+    public ArrayList viewSubClassificationByMainClassificationid(String mainClassificationId){
+        String sql = "SELECT * FROM sub_classification "
+                + "WHERE mClassificationId='"+mainClassificationId+"'";
+        ArrayList<SubClassification> subClassificationList = new ArrayList<>();
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            
+            ResultSet rs = statement.executeQuery(sql);
+            
+            while(rs.next()){
+                SubClassification subClassification = new SubClassification();
+                subClassification.setsClassificationID(rs.getString(1));
+                subClassification.setsClassificationName(rs.getString(2));
+                subClassification.setmClassificationId(rs.getString(3));
+                subClassificationList.add(subClassification);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SubClassificationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subClassificationList;
+    }
 }

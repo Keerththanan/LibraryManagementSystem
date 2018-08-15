@@ -58,17 +58,42 @@ public class BookDAO {
         }
     }
     
-    public List<Book> SearchBook (String bookId){
-        Book book = new Book();
-        List<Book> searchResult = new ArrayList<>();
-        String searchQuery = "SELECT * FROM book_detail WHERE bookId = '"+bookId+"';";
+    public ArrayList<Book> SearchBook (String type, String value){
+        String coloumn = null;
+        if("Book ID".equals(type)){
+            coloumn = "bookId";
+        }
+        else if("Title".equals(type)){
+            coloumn = "title";
+        }
+        else if("Author".equals(type)){
+            coloumn = "author";
+        }
+        else if("Main Classification".equals(type)){
+            coloumn = "mainClassification";
+        }
+        else if("Sub Classification".equals(type)){
+            coloumn = "subClassification";
+        }
+        
+        ArrayList<Book> searchResult = new ArrayList<>();
+        String searchQuery = "SELECT * FROM book_detail WHERE " + coloumn + " LIKE '" + value + "%'";
         try{
             connection = DBConnector.connect();
+            statement = connection.createStatement();
             resultSet = statement.executeQuery(searchQuery);
             while(resultSet.next()){
-                book.setBookId(bookId);
-                book.setTitle(resultSet.getString("title"));
-                book.setAuthor(resultSet.getString("author"));
+                Book book = new Book();
+                book.setBookId(resultSet.getString(1));
+                book.setTitle(resultSet.getString(2));
+                book.setAuthor(resultSet.getString(3));
+                book.setmClassification(resultSet.getString(4));
+                book.setsClassification(resultSet.getString(5));
+                book.setYop(resultSet.getString(6));
+                book.setLpy(resultSet.getString(7));
+                book.setIsbn(resultSet.getString(8));
+                book.setNop(resultSet.getString(9));
+                
                 searchResult.add(book);
             }
         }
@@ -84,5 +109,39 @@ public class BookDAO {
         Statement statement = connection.createStatement();
         ResultSet resultset = statement.executeQuery(query); 
         return resultset;
+    }
+    
+    public ArrayList<Book> ViewAllBooks(){
+        
+        ArrayList<Book> searchResult = new ArrayList<>();
+        String searchQuery = "SELECT * FROM book_detail";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(searchQuery);
+            while(resultSet.next()){
+                Book book = new Book();
+                book.setBookId(resultSet.getString(1));
+                book.setTitle(resultSet.getString(2));
+                book.setAuthor(resultSet.getString(3));
+                book.setmClassification(resultSet.getString(4));
+                book.setsClassification(resultSet.getString(5));
+                book.setYop(resultSet.getString(6));
+                book.setLpy(resultSet.getString(7));
+                book.setIsbn(resultSet.getString(8));
+                book.setNop(resultSet.getString(9));
+                
+                searchResult.add(book);
+            }
+            
+            
+            
+            
+        }
+        catch(Exception e){
+            System.out.println("Error on Searching: " + e);
+        }
+        
+        return searchResult;
     }
 }
