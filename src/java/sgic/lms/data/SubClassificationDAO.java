@@ -38,7 +38,6 @@ public class SubClassificationDAO {
             mID = getMCID(mName);
             pStatement.setString(3, mID);
             pStatement.executeUpdate();
-            System.out.println("####################");
 
         }
         catch(SQLException e){

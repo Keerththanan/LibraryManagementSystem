@@ -19,9 +19,35 @@
 
 
         <script>
+            
+            function loadMainClassification(){
+                $.ajax({
+                       url: 'MainClassificationController',
+                       
+                       complete: function(response){
+                           var json = JSON.parse(response.responseText);
+                           var noOfRecords = Object.keys(json.MainClassification).length;
+                           
+                           option = "<option>Select Main Classification</option>";
+                           for(var x=0; x<noOfRecords; x++){
+                                option += "<option value='"+ json.MainClassification[x].MainClassificationId + "'>"+ json.MainClassification[x].MainClassificationName + "</option>";
+                           }
+                           
+                           $("#mainClassification")
+                                   .find('option').remove().end().append(option);
+                           
+//                           $("#bookId").val(json.SubClassification[0].SubClassificationId);
+                       },
+                    });
+            }
+            
+            
             $(document).ready(function () {
+                
+                loadMainClassification();
+                
                 $("#mainClassification").change(function () {
-                    //alert(this.value);
+                    alert(this.value);
                     var mainClassificationId = this.value;
                     
                     $.ajax({
@@ -31,7 +57,7 @@
                            var json = JSON.parse(response.responseText);
                            var noOfRecords = Object.keys(json.SubClassification).length;
                            
-                           option = "<option>Select Sub Classification</option>";
+                           option = "";
                            for(var x=0; x<noOfRecords; x++){
                                 option += "<option value='"+ json.SubClassification[x].SubClassificationId + "'>"+ json.SubClassification[x].SubClassificationName + "</option>";
                            }
@@ -39,15 +65,10 @@
                            $("#subClassification")
                                    .find('option').remove().end().append(option);
                            
-                           $("#bookId").val(json.SubClassification[0].SubClassificationId);
-                       },
-                       error: function(){
-                           
+//                           $("#bookId").val(json.SubClassification[0].SubClassificationId);
                        },
                     });
                 });
-
-                
             });
         </script>
     </head>
@@ -74,17 +95,11 @@
                         <label for="Author">Author</label>
                         <input type="text" name="author" id="author" placeholder="Enter Author name" class="form-control">
                     </div>
-
-                    <%  BookDAO BookDAO = new BookDAO();
-                        ResultSet resultsetMC = BookDAO.GetResultSet("select * from main_classification");
-                        ResultSet resultsetSC = BookDAO.GetResultSet("select * from sub_classification");
-                    %>                
+               
                     <div class="form-group">
                         <label name="MainClassifiacation">Main CLassification</label>
                         <select id="mainClassification" name="mainClassification" class="form-control">
-                            <%  while (resultsetMC.next()) {%>
-                            <option value="<%= resultsetMC.getString(1)%>"><%= resultsetMC.getString(2)%></option>
-                            <% } %></select> 
+                        </select> 
                     </div>
                     <div class="form-group">
                         <label name="SubClassification">Sub CLassification</label>

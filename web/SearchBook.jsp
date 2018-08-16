@@ -54,6 +54,7 @@
                 </div>
       
             </div>
+        </form>
         <table style="width: 90%"> 
             <tr>
             <th>ID</th>
@@ -68,7 +69,6 @@
             <th>Action</th>
             </tr>
             <tbody>
-                
             <c:forEach items="${BookList}" var="BookList">
                 <tr>
                     <td>${BookList.getBookId()}</td>
@@ -80,13 +80,12 @@
                     <td>${BookList.getLpy()}</td>
                     <td>${BookList.getIsbn()}</td>
                     <td>${BookList.getNop()}</td>
-                    <td><a href="#"<i id="${BookList.getBookId()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
-                        <a href="#"<i id="${BookList.getBookId()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;"></i></a></td>
+                    <td><a href="#"<i class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
+                        <a href="#"<i class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;"></i></a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-            </form>
         
     </div>
         </div>

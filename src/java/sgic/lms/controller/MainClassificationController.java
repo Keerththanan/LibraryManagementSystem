@@ -7,6 +7,12 @@ package sgic.lms.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -61,7 +67,33 @@ public class MainClassificationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        List<MainClassification> mainClassificationList = new ArrayList<>();
+        MainClassificationDAO mainDao = new MainClassificationDAO();
+        
+        mainClassificationList = mainDao.loadMainClassification();
+        
+        response.setContentType("application/json");
+        PrintWriter writer = response.getWriter();
+        
+        JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        JsonObject subClassificationJson = null;
+        
+        for(MainClassification mainClassification : mainClassificationList){
+            JsonObjectBuilder subClassificationBuilder = Json.createObjectBuilder();
+            
+            subClassificationJson = subClassificationBuilder
+                    .add("MainClassificationId", mainClassification.getmClassificationID() != null ? mainClassification.getmClassificationID() : "" )
+                    .add("MainClassificationName", mainClassification.getmClassificationName() != null ? mainClassification.getmClassificationName() : "")
+                    .build();
+            arrayBuilder.add(subClassificationJson);
+        }
+        
+        JsonObject root = rootBuilder.add("MainClassification", arrayBuilder).build();
+        writer.print(root);
+        writer.flush();
+        writer.close();
+
     }
 
     /**
