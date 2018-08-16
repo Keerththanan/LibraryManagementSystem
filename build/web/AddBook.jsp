@@ -77,7 +77,6 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="date" class="java.util.Date" />
 
-        <button id="buttonTest">Test</button>
         <form action="BookController" method="post">
             <div class="row">
                 <div class="col-md-2"></div>

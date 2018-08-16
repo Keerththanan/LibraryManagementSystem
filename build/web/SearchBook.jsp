@@ -17,6 +17,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
     </head>
     <body>
         <%@include file="Shared/header.jsp" %>
@@ -80,14 +81,14 @@
                     <td>${BookList.getLpy()}</td>
                     <td>${BookList.getIsbn()}</td>
                     <td>${BookList.getNop()}</td>
-                    <td><a href="#"<i class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
-                        <a href="#"<i class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;"></i></a></td>
+                    <td><a href="#"<i id="${BookList.getBookId()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
+                        <a href="SearchBookController"<i id="${BookList.getBookId()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;"></i></a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
         
     </div>
-        </div>
+    </div>
     </body>
 </html>
