@@ -90,7 +90,7 @@ public class BookController extends HttpServlet {
                 BookDAO.SaveBook(book);
                 System.out.println("Done book saving");
                 //processRequest(request, response);
-                request.getRequestDispatcher("./AddBook.jsp").forward(request, response);
+                request.getRequestDispatcher("AddBook.jsp").forward(request, response);
                 DBConnector.disconnect();
             }catch (Exception ex) {
                 //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);

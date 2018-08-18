@@ -133,15 +133,23 @@ public class BookDAO {
                 
                 searchResult.add(book);
             }
-            
-            
-            
-            
+        
         }
         catch(Exception e){
             System.out.println("Error on Searching: " + e);
         }
         
         return searchResult;
+    }
+    
+    public void DeleteBook(String bookId){
+        String deleteQuery = "DELETE FROM book_detail WHERE bookId = '" + bookId + "'";
+        try{
+            connection = DBConnector.connect();
+            pStatement = connection.prepareStatement(deleteQuery);
+            pStatement.executeUpdate();
+        }catch(Exception e){  
+            System.out.println("Error on delete :" + e);
+        }
     }
 }

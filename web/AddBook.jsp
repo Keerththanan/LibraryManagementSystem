@@ -47,7 +47,7 @@
                 loadMainClassification();
                 
                 $("#mainClassification").change(function () {
-                    alert(this.value);
+                    //alert(this.value);
                     var mainClassificationId = this.value;
                     
                     $.ajax({
@@ -70,6 +70,25 @@
                     });
                 });
             });
+            
+                    
+            function formValidation(){
+                var id = $("#bookId").val();
+                var mC = $("#mainClassification").val();
+                var sC = $("#subClassification").val();
+                if (!id){
+                    $("#errorMessage").text("Book ID can not be empty");
+                    return false;
+                } 
+                if (!mC){
+                    $("#errorMessage").text("Main CLassification can not be empty");
+                    return false;
+                }
+                if (!isC){
+                    $("#errorMessage").text("Sub Classification can not be empty");
+                    return false;
+                }
+            }
         </script>
     </head>
     <body>
@@ -77,7 +96,8 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="date" class="java.util.Date" />
 
-        <form action="BookController" method="post">
+        <form action="BookController" method="post" onsubmit="return formValidation()">
+            <label id="errorMessage"></label>
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-4">

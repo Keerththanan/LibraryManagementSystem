@@ -63,7 +63,11 @@ public class SearchBookController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        
+        BookDAO bDAO = new BookDAO();
+        String BookId = request.getParameter("delete");
+        bDAO.DeleteBook(BookId);
+        RequestDispatcher view = request.getRequestDispatcher("SearchBook.jsp");
+        view.forward(request, response);
     }
 
     /**
