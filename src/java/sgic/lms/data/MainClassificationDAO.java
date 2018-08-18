@@ -8,7 +8,11 @@ package sgic.lms.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sgic.lms.model.MainClassification;
 
 /**
@@ -26,7 +30,6 @@ public class MainClassificationDAO {
         String ID = mClassification.getmClassificationID();
         String Name = mClassification.getmClassificationName();
         
-        
         String insertQuery = "INSERT INTO main_classification (mainId, mClassificationName) VALUES(?, ?)"; //This is how the query should be written for PREPAREDSTATEMENT
         
         try{
@@ -43,9 +46,29 @@ public class MainClassificationDAO {
         catch(Exception e){
             System.out.println("Error... " + e);
         }
-        
-        
-        
+    }
+    
+    
+    public static ArrayList loadMainClassification(){
+        String sql = "SELECT * FROM main_classification";
+        ArrayList<MainClassification> mainClassificationList = new ArrayList<>();
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            
+            resultSet = statement.executeQuery(sql);
+            
+            while(resultSet.next()){
+                MainClassification mainClassification = new MainClassification();
+                mainClassification.setmClassificationID(resultSet.getString(1));
+                mainClassification.setmClassificationName(resultSet.getString(2));
+                mainClassificationList.add(mainClassification);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SubClassificationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mainClassificationList;
     }
     
 }

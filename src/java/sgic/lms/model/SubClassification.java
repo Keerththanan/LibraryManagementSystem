@@ -14,7 +14,15 @@ public class SubClassification {
     String sClassificationID;
     String mClassificationName;
     String sClassificationName;
-    
+    String mClassificationId;
+
+    public String getmClassificationId() {
+        return mClassificationId;
+    }
+
+    public void setmClassificationId(String mClassificationId) {
+        this.mClassificationId = mClassificationId;
+    }
     
     public String getsClassificationID() {
         return sClassificationID;
