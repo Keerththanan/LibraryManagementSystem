@@ -91,7 +91,7 @@
                     <td>${BookList.getLpy()}</td>
                     <td>${BookList.getIsbn()}</td>
                     <td>${BookList.getNop()}</td>
-                    <td><a href="#"<i name="edit" value="${BookList.getBookId()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
+                    <td><a href="EditBookController?edit=${BookList.getBookId()}"<i name="edit" value="${BookList.getBookId()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
                         <a href="SearchBookController?delete=${BookList.getBookId()}" onclick="return confirmDelete()" <i name="delete" value="${BookList.getBookId()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;" ></i></a></td>
                 </tr>
             </c:forEach>

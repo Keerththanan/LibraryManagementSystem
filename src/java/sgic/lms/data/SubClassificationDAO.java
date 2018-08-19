@@ -86,4 +86,27 @@ public class SubClassificationDAO {
         }
         return subClassificationList;
     }
+    
+    public static ArrayList loadSubClassificationForMainClassification(String mainClassification){
+        String sql = "SELECT * FROM sub_classification WHERE mClassificationId = '" + mainClassification + "'";
+        ArrayList<SubClassification> subClassificationList = new ArrayList<>();
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            
+            resultSet = statement.executeQuery(sql);
+            
+            while(resultSet.next()){
+                SubClassification subClassification = new SubClassification();
+                subClassification.setsClassificationID(resultSet.getString(1));
+                subClassification.setsClassificationName(resultSet.getString(2));
+                subClassification.setmClassificationName(resultSet.getString(3));
+                subClassificationList.add(subClassification);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SubClassificationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subClassificationList;
+    }
 }

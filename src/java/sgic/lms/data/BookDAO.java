@@ -152,4 +152,78 @@ public class BookDAO {
             System.out.println("Error on delete :" + e);
         }
     }
+    
+    public boolean updateBook(Book book) {
+        String bookId = book.getBookId();
+        String title = book.getTitle();
+        String author = book.getAuthor();
+        String mClassifi = book.getmClassification();
+        String sClassifi = book.getsClassification();
+        String yop = book.getYop();
+        String lpy = book.getLpy();
+        String isbn = book.getIsbn();
+        String nop = book.getNop();  
+        
+        //String insertQuery = "INSERT INTO book_detail(bookId, title, author) VALUES('"+bookId+"', '"+title+"','"+author+"')"; //This is how the query should be written for STATEMENT
+        String insertQuery = "INSERT INTO book_detail (bookId, title, author, mainClassification, subClassification, yop, lpy, isbn, nop) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"; //This is how the query should be written for PREPAREDSTATEMENT
+
+        
+        try {
+            connection = DBConnector.connect();
+            pStatement = connection.prepareStatement(insertQuery);
+            pStatement.setString(1, bookId);
+            pStatement.setString(2, title);
+            pStatement.setString(3, author);
+            pStatement.setString(4, mClassifi);
+            pStatement.setString(5, sClassifi);
+            pStatement.setString(6, yop);
+            pStatement.setString(7, lpy);
+            pStatement.setString(8, isbn);
+            pStatement.setString(9, nop);
+            
+            int i = pStatement.executeUpdate();
+            System.out.println();
+
+            if (i == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    
+    public ArrayList<Book> SearchBookByID (String type, String value){
+        String coloumn = null;
+        if("Book ID".equals(type)){
+            coloumn = "bookId";
+        }
+       
+        ArrayList<Book> searchResult = new ArrayList<>();
+        String searchQuery = "SELECT * FROM book_detail WHERE " + coloumn + " = '" + value + "'";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(searchQuery);
+            while(resultSet.next()){
+                Book book = new Book();
+                book.setBookId(resultSet.getString(1));
+                book.setTitle(resultSet.getString(2));
+                book.setAuthor(resultSet.getString(3));
+                book.setmClassification(resultSet.getString(4));
+                book.setsClassification(resultSet.getString(5));
+                book.setYop(resultSet.getString(6));
+                book.setLpy(resultSet.getString(7));
+                book.setIsbn(resultSet.getString(8));
+                book.setNop(resultSet.getString(9));
+                
+                searchResult.add(book);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error on Searching: " + e);
+        }
+        
+        return searchResult;
+    }
 }

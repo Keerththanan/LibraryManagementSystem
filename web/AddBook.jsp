@@ -18,8 +18,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 
-        <script>
-            
+        <script>          
             function loadMainClassification(){
                 $.ajax({
                        url: 'MainClassificationController',
@@ -71,7 +70,6 @@
                 });
             });
             
-                    
             function formValidation(){
                 var id = $("#bookId").val();
                 var mC = $("#mainClassification").val();

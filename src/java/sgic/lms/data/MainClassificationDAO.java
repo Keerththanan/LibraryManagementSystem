@@ -66,9 +66,42 @@ public class MainClassificationDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(SubClassificationDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainClassificationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mainClassificationList;
     }
     
+    
+    
+//    public ArrayList<MainClassification> ViewAllMC(){
+//        
+//        ArrayList<MainClassification> searchResult = new ArrayList<>();
+//        String searchQuery = "SELECT * FROM main_classification";
+//        try{
+//            connection = DBConnector.connect();
+//            statement = connection.createStatement();
+//            resultSet = statement.executeQuery(searchQuery);
+//            while(resultSet.next()){
+//                MainClassification mainC = new MainClassification();
+//                mainC.setmClassificationID(resultSet.getString(1));
+//                mainC.setmClassificationName(resultSet.getString(2));
+//                searchResult.add(mainC);
+//            }
+//        }
+//        catch(Exception e){
+//            System.out.println("Error on Searching: " + e);
+//        }
+//        return searchResult;
+//    }
+    
+//    public void DeleteMC(String mcId){
+//        String deleteQuery = "DELETE FROM book_detail WHERE bookId = '" + bookId + "'";
+//        try{
+//            connection = DBConnector.connect();
+//            pStatement = connection.prepareStatement(deleteQuery);
+//            pStatement.executeUpdate();
+//        }catch(Exception e){  
+//            System.out.println("Error on delete :" + e);
+//        }
+//    }
 }

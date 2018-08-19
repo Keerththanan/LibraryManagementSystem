@@ -26,7 +26,7 @@
             <a class="dropdown-item" href="AddMainClassification.jsp">Add MainClassification</a>
             <a class="dropdown-item" href="#SubClassification.jsp">Delete MainClassification</a>
             <a class="dropdown-item" href="#MainClassification.jsp">Edit MainClassification</a>
-            <a class="dropdown-item" href="#MainClassification.jsp">Search MainClassification</a>
+            <a class="dropdown-item" href="SearchMainClassification.jsp">Search MainClassification</a>
         </div>  
     </li>
         <li class="nav-item dropdown">

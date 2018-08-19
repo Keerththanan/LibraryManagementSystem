@@ -13,6 +13,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -108,20 +109,40 @@ public class MainClassificationController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        MainClassification mClassification = new MainClassification();
-        mClassification.setmClassificationID(request.getParameter("mClassificationID"));
-        mClassification.setmClassificationName(request.getParameter("mClassificationName"));
-        
-        try {
-            MainClassificationDAO.SaveMainClassification(mClassification);
-            System.out.println("Done mCLassification saving");
-            //processRequest(request, response);
-            request.getRequestDispatcher("./AddMainClassification.jsp").forward(request, response);
-                DBConnector.disconnect();
+        if((request.getParameter("ADD") != null)){
+            MainClassification mClassification = new MainClassification();
+            mClassification.setmClassificationID(request.getParameter("mClassificationID"));
+            mClassification.setmClassificationName(request.getParameter("mClassificationName"));
+
+            try {
+                MainClassificationDAO.SaveMainClassification(mClassification);
+                System.out.println("Done mCLassification saving");
+                //processRequest(request, response);
+                request.getRequestDispatcher("./AddMainClassification.jsp").forward(request, response);
+                    DBConnector.disconnect();
             }catch (Exception ex) {
-                //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("Test Exception: " + ex.getMessage());
             }
+        }
+        else if(request.getParameter("viewAllMC") != null){
+            //Book book = new Book();
+            MainClassificationDAO mcDAO = new MainClassificationDAO();  
+            ArrayList<MainClassification> MCList = new ArrayList<>();
+            MCList = mcDAO.loadMainClassification();
+            request.setAttribute("MCList", MCList);
+            RequestDispatcher view = request.getRequestDispatcher("SearchMainClassification.jsp");
+            view.forward(request, response);
+        }
+//        else if(request.getParameter("Search") != null){
+//            String type = request.getParameter("searchBy");
+//            String value = request.getParameter("value");
+//            BookDAO bookDAO = new BookDAO();  
+//            ArrayList<Book> SearchedBookList = new ArrayList<>();
+//            SearchedBookList = bookDAO.SearchBook(type, value);
+//            request.setAttribute("BookList", SearchedBookList); 
+//        }
+        
         
     }
 
