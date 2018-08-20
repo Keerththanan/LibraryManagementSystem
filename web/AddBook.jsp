@@ -74,17 +74,19 @@
                 var id = $("#bookId").val();
                 var mC = $("#mainClassification").val();
                 var sC = $("#subClassification").val();
-                if (!id){
-                    $("#errorMessage").text("Book ID can not be empty");
-                    return false;
-                } 
-                if (!mC){
-                    $("#errorMessage").text("Main CLassification can not be empty");
-                    return false;
-                }
-                if (!isC){
-                    $("#errorMessage").text("Sub Classification can not be empty");
-                    return false;
+                if(!id || !mC || !sC){
+                    if (!id){
+                        $("#errorMessage").text("Book ID can not be empty");
+                        return false;
+                    } 
+                    if (!mC){
+                        $("#errorMessage").text("Main CLassification can not be empty");
+                        return false;
+                    }
+                    if (!sC){
+                        $("#errorMessage").text("Sub Classification can not be empty");
+                        return false;
+                    }
                 }
             }
         </script>
