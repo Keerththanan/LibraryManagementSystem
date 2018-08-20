@@ -75,8 +75,9 @@ public class BookController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        Book book = new Book();
+        //processRequest(request, response);      
+        if(request.getParameter("ADD") != null){
+            Book book = new Book();
             book.setBookId(request.getParameter("bookId"));
             book.setTitle(request.getParameter("title"));
             book.setAuthor(request.getParameter("author"));
@@ -96,6 +97,9 @@ public class BookController extends HttpServlet {
                 //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("Test Exception: " + ex.getMessage());
             }
+        }else if(request.getParameter("CANCEL") != null){
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     /**

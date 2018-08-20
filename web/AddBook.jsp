@@ -96,7 +96,7 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <jsp:useBean id="date" class="java.util.Date" />
 
-        <form action="BookController" method="post" onsubmit="return formValidation()">
+        <form action="BookController" method="post">
             <label id="errorMessage"></label>
             <div class="row">
                 <div class="col-md-2"></div>
@@ -149,10 +149,10 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-5">
-                    <input type = "submit" value = "ADD" class="text-center btn btn-success">
+                    <input type = "submit" name="ADD" value="ADD" class="text-center btn btn-success" onclick="return formValidation()">
                 </div>
                 <div class="col-md-4">
-                    <input type = "submit" value = "CANCEL" class="btn btn-danger">
+                    <input type = "submit" name="CANCEL" value="CANCEL" class="btn btn-danger">
                 </div>
             </div>
         </form>   
