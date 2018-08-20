@@ -170,21 +170,20 @@ public class BookDAO {
         String nop = book.getNop();  
         
         //String insertQuery = "INSERT INTO book_detail(bookId, title, author) VALUES('"+bookId+"', '"+title+"','"+author+"')"; //This is how the query should be written for STATEMENT
-        String insertQuery = "INSERT INTO book_detail (bookId, title, author, mainClassification, subClassification, yop, lpy, isbn, nop) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"; //This is how the query should be written for PREPAREDSTATEMENT
+        String insertQuery = "UPDATE book_detail SET title=?, author=?, mainClassification=?, subClassification=?, yop=?, lpy=?, isbn=?, nop=? WHERE bookId = '" + bookId + "'"; //This is how the query should be written for PREPAREDSTATEMENT
 
         
         try {
             connection = DBConnector.connect();
             pStatement = connection.prepareStatement(insertQuery);
-            pStatement.setString(1, bookId);
-            pStatement.setString(2, title);
-            pStatement.setString(3, author);
-            pStatement.setString(4, mClassifi);
-            pStatement.setString(5, sClassifi);
-            pStatement.setString(6, yop);
-            pStatement.setString(7, lpy);
-            pStatement.setString(8, isbn);
-            pStatement.setString(9, nop);
+            pStatement.setString(1, title);
+            pStatement.setString(2, author);
+            pStatement.setString(3, mClassifi);
+            pStatement.setString(4, sClassifi);
+            pStatement.setString(5, yop);
+            pStatement.setString(6, lpy);
+            pStatement.setString(7, isbn);
+            pStatement.setString(8, nop);
             
             int i = pStatement.executeUpdate();
             System.out.println();

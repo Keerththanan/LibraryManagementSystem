@@ -70,28 +70,28 @@ public class EditBookController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        
-        String bookId = request.getParameter("edit");
-        List<Book> bookList = bookDAO.SearchBookByID("Book ID", bookId);                  
 
-        MainClassificationDAO mcDAO = new MainClassificationDAO();
-        ArrayList<MainClassification> mcList = new ArrayList<>();
-        mcList = mcDAO.loadMainClassification();
-        SubClassificationDAO scDAO = new SubClassificationDAO();
-        ArrayList<SubClassification> scList = new ArrayList<>();
-        
-        String mcId = null;
-        for(Book book: bookList){
-            mcId = book.getmClassification();
-        }
+            String bookId = request.getParameter("edit");
+            List<Book> bookList = bookDAO.SearchBookByID("Book ID", bookId);                  
 
-        scList = scDAO.loadSubClassificationForMainClassification(mcId);
-            
-        request.setAttribute("book", bookList);
-        request.setAttribute("SetMainClass", mcList);
-        request.setAttribute("SetSubClass", scList);
-        
-        request.getRequestDispatcher("EditBook.jsp").forward(request, response);
+            MainClassificationDAO mcDAO = new MainClassificationDAO();
+            ArrayList<MainClassification> mcList = new ArrayList<>();
+            mcList = mcDAO.loadMainClassification();
+            SubClassificationDAO scDAO = new SubClassificationDAO();
+            ArrayList<SubClassification> scList = new ArrayList<>();
+
+            String mcId = null;
+            for(Book book: bookList){
+                mcId = book.getmClassification();
+            }
+
+            scList = scDAO.loadSubClassificationForMainClassification(mcId);
+
+            request.setAttribute("book", bookList);
+            request.setAttribute("SetMainClass", mcList);
+            request.setAttribute("SetSubClass", scList);
+
+            request.getRequestDispatcher("EditBook.jsp").forward(request, response);
     }
 
     /**
@@ -106,27 +106,33 @@ public class EditBookController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        book.setBookId(request.getParameter("bookId"));        
-        book.setTitle(request.getParameter("title"));
-        book.setAuthor(request.getParameter("author"));
-        book.setmClassification(request.getParameter("mClassification"));
-        book.setsClassification(request.getParameter("sClassification"));
-        book.setYop(request.getParameter("yop"));
-        book.setLpy(request.getParameter("lpy"));        
-        book.setIsbn(request.getParameter("isbn"));
-        if(request.getParameter("nop")!="")
-            book.setNop(request.getParameter("nop"));
-        try{
+        if(request.getParameter("update") != null){
+            book.setBookId(request.getParameter("bookId"));        
+            book.setTitle(request.getParameter("title"));
+            book.setAuthor(request.getParameter("author"));
+            book.setmClassification(request.getParameter("mainClassification"));
+            book.setsClassification(request.getParameter("subClassification"));
+            String sc = request.getParameter("subClassification");
+            book.setYop(request.getParameter("yop"));
+            book.setLpy(request.getParameter("lpy"));        
+            book.setIsbn(request.getParameter("isbn"));
+            if(request.getParameter("nop")!="")
+                book.setNop(request.getParameter("nop"));
+            try{
 
-            boolean success = bookDAO.updateBook(book);
-            if (success)
-            {   
-                String message = "The selected book is successfully updated!";
-                request.getRequestDispatcher("SearchBook.jsp").forward(request, response);                
+                boolean success = bookDAO.updateBook(book);
+                if (success)
+                {   
+                    String message = "The selected book is successfully updated!";
+                    request.getRequestDispatcher("SearchBook.jsp").forward(request, response);                
+                }
+            }catch(Exception ex){
+                System.out.println(ex);
             }
-        }catch(Exception ex){
-            System.out.println(ex);
         }
+        else if(request.getParameter("cancel") != null)
+            request.getRequestDispatcher("SearchBook.jsp").forward(request, response);
+        
             
     }
 
