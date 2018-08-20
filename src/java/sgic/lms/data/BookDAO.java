@@ -114,7 +114,9 @@ public class BookDAO {
     public ArrayList<Book> ViewAllBooks(){
         
         ArrayList<Book> searchResult = new ArrayList<>();
-        String searchQuery = "SELECT * FROM book_detail";
+        String searchQuery = "SELECT * FROM book_detail bd "
+                + "JOIN main_classification mc ON bd.mainClassification = mc.mainId "
+                + "JOIN sub_classification sc ON bd.subClassification = sc.subId";
         try{
             connection = DBConnector.connect();
             statement = connection.createStatement();
@@ -124,8 +126,8 @@ public class BookDAO {
                 book.setBookId(resultSet.getString(1));
                 book.setTitle(resultSet.getString(2));
                 book.setAuthor(resultSet.getString(3));
-                book.setmClassification(resultSet.getString(4));
-                book.setsClassification(resultSet.getString(5));
+                book.setmClassification(resultSet.getString("mClassificationName"));
+                book.setsClassification(resultSet.getString("sClassificationName"));
                 book.setYop(resultSet.getString(6));
                 book.setLpy(resultSet.getString(7));
                 book.setIsbn(resultSet.getString(8));
