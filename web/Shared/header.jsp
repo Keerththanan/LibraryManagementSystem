@@ -12,9 +12,7 @@
       </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="AddBook.jsp">Add Book</a>
-        <a class="dropdown-item" href="#DeleteBook.jsp">Delete Book</a>
         <a class="dropdown-item" href="SearchBook.jsp">Search Book</a>
-        <a class="dropdown-item" href="#EditBook.jsp">Edit Book</a>
       </div>
     </li>
     <li class="nav-item dropdown">
@@ -22,10 +20,7 @@
             Main Classification
         </a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#SubClassification.jsp">View All MainClassification</a>
             <a class="dropdown-item" href="AddMainClassification.jsp">Add MainClassification</a>
-            <a class="dropdown-item" href="#SubClassification.jsp">Delete MainClassification</a>
-            <a class="dropdown-item" href="#MainClassification.jsp">Edit MainClassification</a>
             <a class="dropdown-item" href="SearchMainClassification.jsp">Search MainClassification</a>
         </div>  
     </li>
@@ -34,10 +29,7 @@
             Sub Classification
         </a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#SubClassification.jsp">View All SubClassification</a>
             <a class="dropdown-item" href="AddSubClassification.jsp">Add SubClassification</a>
-            <a class="dropdown-item" href="#SubClassification.jsp">Delete SubClassification</a>
-            <a class="dropdown-item" href="#MainClassification.jsp">Edit SubClassification</a>
             <a class="dropdown-item" href="#MainClassification.jsp">Search SubClassification</a>
         </div>  
         </li>
