@@ -80,7 +80,7 @@
 
                         <div class="form-group">
                             <label for="BookID">BookID</label>
-                            <input type="text" name="bookId" id="bookId" value="${data.getBookId()}" placeholder="Enter Book ID" class="form-control">
+                            <input type="text" name="bookId" id="bookId" value="${data.getBookId()}" readonly class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="Title">Title</label>
