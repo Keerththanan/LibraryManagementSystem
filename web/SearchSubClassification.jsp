@@ -43,6 +43,8 @@
                     <select class="selectpicker form-control" name="searchBy">
                         <option>SubClassification ID</option>
                         <option>SubClassification Name</option>
+                        <option>MainClassification ID</option>
+                        <option>MainClassification Name</option>
                     </select>
                 </div>
  

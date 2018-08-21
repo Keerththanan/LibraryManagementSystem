@@ -64,7 +64,10 @@ public class SubClassificationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            SubClassificationDAO scDAO = new SubClassificationDAO();
+            String scId = request.getParameter("delete");
+            scDAO.DeleteSC(scId);
+            request.getRequestDispatcher("SearchSubClassification.jsp").forward(request, response);
     }
 
     /**
@@ -104,15 +107,15 @@ public class SubClassificationController extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher("SearchSubClassification.jsp");
             view.forward(request, response);
         }
-//        else if(request.getParameter("Search") != null){
-//            String type = request.getParameter("searchBy");
-//            String value = request.getParameter("value");
-//            MainClassificationDAO mcDAO = new MainClassificationDAO();  
-//            ArrayList<MainClassification> SearchedMCList = new ArrayList<>();
-//            SearchedMCList = mcDAO.SearchMainClassification(type, value);
-//            request.setAttribute("MCList", SearchedMCList);
-//            request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
-//        }
+        else if(request.getParameter("Search") != null){
+            String type = request.getParameter("searchBy");
+            String value = request.getParameter("value");
+            SubClassificationDAO scDAO = new SubClassificationDAO();  
+            ArrayList<SubClassification> SearchedSCList = new ArrayList<>();
+            SearchedSCList = scDAO.SearchSubClassification(type, value);
+            request.setAttribute("SCList", SearchedSCList);
+            request.getRequestDispatcher("SearchSubClassification.jsp").forward(request, response);
+        }
         else if(request.getParameter("CANCEL") != null){
             request.getRequestDispatcher("AddSubClassification.jsp").forward(request, response);
         }

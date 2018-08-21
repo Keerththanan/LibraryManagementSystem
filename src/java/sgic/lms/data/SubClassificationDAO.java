@@ -136,4 +136,70 @@ public class SubClassificationDAO {
         return subClassificationList;
     }
     
+    public ArrayList<SubClassification> SearchSubClassification(String type, String value){
+        String coloumn = null;
+        if("SubClassification ID".equals(type)){
+            coloumn = "subId";
+        }
+        else if("SubClassification Name".equals(type)){
+            coloumn = "sClassificationName";
+        }
+        else if("MainClassification ID".equals(type)){
+            coloumn = "mainId";
+        }
+        else if("MainClassification Name".equals(type)){
+            coloumn = "mClassificationName";
+        }
+     
+        ArrayList<SubClassification> searchResult = new ArrayList<>();
+        String searchQuery = "SELECT * FROM sub_classification sc "
+                + "JOIN main_classification mc ON sc.mClassificationId = mc.mainId "
+                + "WHERE " + coloumn + " LIKE '" + value + "%'";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(searchQuery);
+            while(resultSet.next()){
+                SubClassification SC = new SubClassification();
+                
+                SC.setsClassificationID(resultSet.getString("subId"));
+                SC.setsClassificationName(resultSet.getString("sClassificationName"));
+                SC.setmClassificationId(resultSet.getString("mainId"));
+                SC.setmClassificationName(resultSet.getString("mClassificationName"));
+
+                searchResult.add(SC);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error on Searching: " + e);
+        }
+        
+        return searchResult;
+    }
+    
+    public static void DeleteSC(String scId){
+        String query = "SELECT * from book_detail bd "
+                + "JOIN sub_classification sc ON sc.subId = bd.subClassification "
+                + "WHERE bd.subClassification = '" + scId + "'";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+            Integer count = 0;
+            while(resultSet.next()){
+                count++;
+            }
+            
+            if(count == 0){
+                String deleteQuery = "DELETE FROM sub_classification WHERE subId = '" + scId + "'";
+                connection = DBConnector.connect();
+                pStatement = connection.prepareStatement(deleteQuery);
+                pStatement.executeUpdate();
+            }
+        }
+        catch(Exception e){
+            System.out.println("Delete exception: " + e);
+        }
+    }
+    
 }
