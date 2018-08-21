@@ -109,4 +109,31 @@ public class SubClassificationDAO {
         }
         return subClassificationList;
     }
+    
+    public static ArrayList loadSubClassification(){
+        String sql = "SELECT * FROM sub_classification sc JOIN main_classification mc "
+                + "ON sc.mClassificationId = mc.mainId";
+        ArrayList<SubClassification> subClassificationList = new ArrayList<>();
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            
+            resultSet = statement.executeQuery(sql);
+            
+            while(resultSet.next()){
+                SubClassification subClassification = new SubClassification();
+                subClassification.setsClassificationID(resultSet.getString(1));
+                subClassification.setsClassificationName(resultSet.getString(2));
+                subClassification.setmClassificationId(resultSet.getString(3));
+                subClassification.setmClassificationName(resultSet.getString(5));
+                
+                subClassificationList.add(subClassification);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MainClassificationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subClassificationList;
+    }
+    
 }

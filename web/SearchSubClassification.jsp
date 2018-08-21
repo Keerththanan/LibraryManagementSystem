@@ -66,16 +66,18 @@
             <tr>
             <th>Sub Classification ID</th>
             <th>Sub Classification Name</th>
-            <th>Main Classification Name</th>
+            <th>Main Classification ID</th>
+            <th>Main CLassification Name</th>
             </tr>
             <tbody>
             <c:forEach items="${SCList}" var="SCList">
                 <tr>
                     <td>${SCList.getsClassificationID()}</td>
                     <td>${SCList.getsClassificationName()}</td>
+                    <td>${SCList.getmClassificationId()}</td>
                     <td>${SCList.getmClassificationName()}</td>
                     <td><a href="#"<i name="edit" value="${SCList.getsClassificationID()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
-                        <a href="MainClassificationController?delete=${SCList.getsClassificationID()}" onclick="return confirmDelete()" <i name="delete" value="${SCList.getsClassificationID()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;" ></i></a></td>
+                        <a href="SubClassificationController?delete=${SCList.getsClassificationID()}" onclick="return confirmDelete()" <i name="delete" value="${SCList.getsClassificationID()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;" ></i></a></td>
                 </tr>
             </c:forEach>
             </tbody>

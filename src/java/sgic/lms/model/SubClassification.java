@@ -12,9 +12,9 @@ package sgic.lms.model;
 
 public class SubClassification {
     String sClassificationID;
-    String mClassificationName;
     String sClassificationName;
     String mClassificationId;
+    String mClassificationName;
 
     public String getmClassificationId() {
         return mClassificationId;

@@ -30,7 +30,7 @@
         </a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="AddSubClassification.jsp">Add SubClassification</a>
-            <a class="dropdown-item" href="#MainClassification.jsp">Search SubClassification</a>
+            <a class="dropdown-item" href="SearchSubClassification.jsp">Search SubClassification</a>
         </div>  
         </li>
   </ul>

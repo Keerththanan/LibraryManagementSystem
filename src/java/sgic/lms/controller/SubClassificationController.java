@@ -7,6 +7,8 @@ package sgic.lms.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -76,21 +78,44 @@ public class SubClassificationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SubClassification sClassification = new SubClassification();
-        sClassification.setsClassificationID(request.getParameter("sClassificationID"));
-        sClassification.setsClassificationName(request.getParameter("sClassificationName"));
-        sClassification.setmClassificationName(request.getParameter("mainClassification"));
-        
-        try {
-            SubClassificationDAO.SaveSubClassification(sClassification);
-            System.out.println("Done mCLassification saving");
-            //processRequest(request, response);
-            request.getRequestDispatcher("./AddSubClassification.jsp").forward(request, response);
-            DBConnector.disconnect();
+        if(request.getParameter("ADD") != null){
+            SubClassification sClassification = new SubClassification();
+            sClassification.setsClassificationID(request.getParameter("sClassificationID"));
+            sClassification.setsClassificationName(request.getParameter("sClassificationName"));
+            sClassification.setmClassificationName(request.getParameter("mainClassification"));
+
+            try {
+                SubClassificationDAO.SaveSubClassification(sClassification);
+                System.out.println("Done sClassification saving");
+                //processRequest(request, response);
+                request.getRequestDispatcher("AddSubClassification.jsp").forward(request, response);
+                DBConnector.disconnect();
             }catch (Exception ex) {
-                //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Test Exception: " + ex.getMessage());
+                    //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Test Exception: " + ex.getMessage());
             }
+        }
+        else if(request.getParameter("viewAllSC") != null){
+            //Book book = new Book();
+            SubClassificationDAO scDAO = new SubClassificationDAO();  
+            ArrayList<SubClassification> SCList = new ArrayList<>();
+            SCList = scDAO.loadSubClassification();
+            request.setAttribute("SCList", SCList);
+            RequestDispatcher view = request.getRequestDispatcher("SearchSubClassification.jsp");
+            view.forward(request, response);
+        }
+//        else if(request.getParameter("Search") != null){
+//            String type = request.getParameter("searchBy");
+//            String value = request.getParameter("value");
+//            MainClassificationDAO mcDAO = new MainClassificationDAO();  
+//            ArrayList<MainClassification> SearchedMCList = new ArrayList<>();
+//            SearchedMCList = mcDAO.SearchMainClassification(type, value);
+//            request.setAttribute("MCList", SearchedMCList);
+//            request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
+//        }
+        else if(request.getParameter("CANCEL") != null){
+            request.getRequestDispatcher("AddSubClassification.jsp").forward(request, response);
+        }
     }
 
     /**
