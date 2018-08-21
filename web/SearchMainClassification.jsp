@@ -29,7 +29,7 @@
         </script>
     </head>
     <body>
-<%@include file="Shared/header.jsp" %>
+    <%@include file="Shared/header.jsp" %>
         <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">

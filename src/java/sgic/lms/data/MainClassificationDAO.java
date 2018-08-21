@@ -47,8 +47,7 @@ public class MainClassificationDAO {
             System.out.println("Error... " + e);
         }
     }
-    
-    
+   
     public static ArrayList loadMainClassification(){
         String sql = "SELECT * FROM main_classification";
         ArrayList<MainClassification> mainClassificationList = new ArrayList<>();
@@ -71,29 +70,39 @@ public class MainClassificationDAO {
         return mainClassificationList;
     }
     
-    
-    
-//    public ArrayList<MainClassification> ViewAllMC(){
-//        
-//        ArrayList<MainClassification> searchResult = new ArrayList<>();
-//        String searchQuery = "SELECT * FROM main_classification";
-//        try{
-//            connection = DBConnector.connect();
-//            statement = connection.createStatement();
-//            resultSet = statement.executeQuery(searchQuery);
-//            while(resultSet.next()){
-//                MainClassification mainC = new MainClassification();
-//                mainC.setmClassificationID(resultSet.getString(1));
-//                mainC.setmClassificationName(resultSet.getString(2));
-//                searchResult.add(mainC);
-//            }
-//        }
-//        catch(Exception e){
-//            System.out.println("Error on Searching: " + e);
-//        }
-//        return searchResult;
-//    }
-    
+    public ArrayList<MainClassification> SearchMainClassification(String type, String value){
+        String coloumn = null;
+        if("MainClassification ID".equals(type)){
+            coloumn = "mainId";
+        }
+        else if("MainClassification Name".equals(type)){
+            coloumn = "mClassificationName";
+        }
+
+        
+        ArrayList<MainClassification> searchResult = new ArrayList<>();
+        String searchQuery = "SELECT * FROM main_classification "
+                + "WHERE " + coloumn + " LIKE '" + value + "%'";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(searchQuery);
+            while(resultSet.next()){
+                MainClassification MC = new MainClassification();
+                
+                MC.setmClassificationID(resultSet.getString(1));
+                MC.setmClassificationName(resultSet.getString(2));
+                
+                searchResult.add(MC);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error on Searching: " + e);
+        }
+        
+        return searchResult;
+    }
+ 
 //    public void DeleteMC(String mcId){
 //        String deleteQuery = "DELETE FROM book_detail WHERE bookId = '" + bookId + "'";
 //        try{

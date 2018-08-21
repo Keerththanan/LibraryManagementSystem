@@ -134,17 +134,18 @@ public class MainClassificationController extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher("SearchMainClassification.jsp");
             view.forward(request, response);
         }
+        else if(request.getParameter("Search") != null){
+            String type = request.getParameter("searchBy");
+            String value = request.getParameter("value");
+            MainClassificationDAO mcDAO = new MainClassificationDAO();  
+            ArrayList<MainClassification> SearchedMCList = new ArrayList<>();
+            SearchedMCList = mcDAO.SearchMainClassification(type, value);
+            request.setAttribute("MCList", SearchedMCList);
+            request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
+        }
         else if(request.getParameter("CANCEL") != null){
             request.getRequestDispatcher("AddMainClassification.jsp").forward(request, response);
         }
-//        else if(request.getParameter("Search") != null){
-//            String type = request.getParameter("searchBy");
-//            String value = request.getParameter("value");
-//            BookDAO bookDAO = new BookDAO();  
-//            ArrayList<Book> SearchedBookList = new ArrayList<>();
-//            SearchedBookList = bookDAO.SearchBook(type, value);
-//            request.setAttribute("BookList", SearchedBookList); 
-//        }
         
         
     }
