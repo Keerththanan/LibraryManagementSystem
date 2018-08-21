@@ -118,7 +118,7 @@ public class MainClassificationController extends HttpServlet {
                 MainClassificationDAO.SaveMainClassification(mClassification);
                 System.out.println("Done mCLassification saving");
                 //processRequest(request, response);
-                request.getRequestDispatcher("./AddMainClassification.jsp").forward(request, response);
+                request.getRequestDispatcher("AddMainClassification.jsp").forward(request, response);
                     DBConnector.disconnect();
             }catch (Exception ex) {
                     //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
@@ -133,6 +133,9 @@ public class MainClassificationController extends HttpServlet {
             request.setAttribute("MCList", MCList);
             RequestDispatcher view = request.getRequestDispatcher("SearchMainClassification.jsp");
             view.forward(request, response);
+        }
+        else if(request.getParameter("CANCEL") != null){
+            request.getRequestDispatcher("AddMainClassification.jsp").forward(request, response);
         }
 //        else if(request.getParameter("Search") != null){
 //            String type = request.getParameter("searchBy");
