@@ -73,7 +73,7 @@
                     <td>${MCList.getmClassificationID()}</td>
                     <td>${MCList.getmClassificationName()}</td>
                     <td><a href="#"<i name="edit" value="${MCList.getmClassificationID()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
-                        <a href="MainClassificationController?delete=${MCList.getmClassificationID()}" onclick="return confirmDelete()" <i name="delete" value="${BookList.getmClassificationID()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;" ></i></a></td>
+                        <a href="MainClassificationController?delete=${MCList.getmClassificationID()}" onclick="return confirmDelete()" <i name="delete" value="${MCList.getmClassificationID()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;" ></i></a></td>
                 </tr>
             </c:forEach>
             </tbody>
