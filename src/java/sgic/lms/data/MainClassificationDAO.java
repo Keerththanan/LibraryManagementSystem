@@ -113,4 +113,28 @@ public class MainClassificationDAO {
 //            System.out.println("Error on delete :" + e);
 //        }
 //    }
+    public static void DeleteMC(String mcId){
+        String query = "SELECT * from book_detail bd "
+                + "JOIN main_classification mc ON mc.mainId = bd.mainClassification "
+                + "WHERE bd.mainClassification = '" + mcId + "'";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+            Integer count = 0;
+            while(resultSet.next()){
+                count++;
+            }
+            
+            if(count == 0){
+                String deleteQuery = "DELETE FROM main_classification WHERE mainId = '" + mcId + "'";
+                connection = DBConnector.connect();
+                pStatement = connection.prepareStatement(deleteQuery);
+                pStatement.executeUpdate();
+            }
+        }
+        catch(Exception e){
+            System.out.println("Delete exception: " + e);
+        }
+    }
 }
