@@ -62,9 +62,8 @@ public class MainClassificationDAO {
                 mainClassification.setmClassificationID(resultSet.getString(1));
                 mainClassification.setmClassificationName(resultSet.getString(2));
                 mainClassificationList.add(mainClassification);
-            }
-            
-        } catch (SQLException ex) {
+            }          
+        }catch (Exception ex) {
             Logger.getLogger(MainClassificationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mainClassificationList;
@@ -103,16 +102,6 @@ public class MainClassificationDAO {
         return searchResult;
     }
  
-//    public void DeleteMC(String mcId){
-//        String deleteQuery = "DELETE FROM book_detail WHERE bookId = '" + bookId + "'";
-//        try{
-//            connection = DBConnector.connect();
-//            pStatement = connection.prepareStatement(deleteQuery);
-//            pStatement.executeUpdate();
-//        }catch(Exception e){  
-//            System.out.println("Error on delete :" + e);
-//        }
-//    }
     public static void DeleteMC(String mcId){
         String query = "SELECT * from book_detail bd "
                 + "JOIN main_classification mc ON mc.mainId = bd.mainClassification "
@@ -137,4 +126,23 @@ public class MainClassificationDAO {
             System.out.println("Delete exception: " + e);
         }
     }
+    
+    public static void UpdateMainClassification(MainClassification mClassification){
+        String ID = mClassification.getmClassificationID();
+        String Name = mClassification.getmClassificationName();
+        
+        String insertQuery = "UPDATE main_classification SET mClassificationName = '" + Name + "'"
+                + " WHERE mainId = '" + ID +"'"; //This is how the query should be written for PREPAREDSTATEMENT
+        
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            statement.executeUpdate(insertQuery);
+            System.out.println();
+
+        }
+        catch(Exception e){
+            System.out.println("Error... " + e);
+        }
+    } 
 }

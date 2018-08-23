@@ -68,6 +68,21 @@ public class MainClassificationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(request.getParameter("edit") != null){
+            String mcId = request.getParameter("edit");
+            MainClassificationDAO mcDAO = new MainClassificationDAO();
+            List<MainClassification> mcList = mcDAO.SearchMainClassification("MainClassification ID", mcId);
+            
+            request.setAttribute("mcList", mcList);
+            request.getRequestDispatcher("EditMainClassification.jsp").forward(request, response);
+        }
+        else if(request.getParameter("delete") != null){
+            MainClassificationDAO mcDAO = new MainClassificationDAO();
+            String mcId = request.getParameter("delete");
+            mcDAO.DeleteMC(mcId);
+            request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
+        }
+        else{
         List<MainClassification> mainClassificationList = new ArrayList<>();
         MainClassificationDAO mainDao = new MainClassificationDAO();
         
@@ -94,6 +109,7 @@ public class MainClassificationController extends HttpServlet {
         writer.print(root);
         writer.flush();
         writer.close();
+    }
 
     }
 
@@ -131,8 +147,24 @@ public class MainClassificationController extends HttpServlet {
             ArrayList<MainClassification> MCList = new ArrayList<>();
             MCList = mcDAO.loadMainClassification();
             request.setAttribute("MCList", MCList);
-            RequestDispatcher view = request.getRequestDispatcher("SearchMainClassification.jsp");
-            view.forward(request, response);
+            request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
+        }
+        else if(request.getParameter("edit") != null){
+            MainClassification mClassification = new MainClassification();
+            mClassification.setmClassificationID(request.getParameter("mClassificationID"));
+            mClassification.setmClassificationName(request.getParameter("mClassificationName"));
+
+            try {
+                MainClassificationDAO.UpdateMainClassification(mClassification);
+                System.out.println("Main Classification Updated");
+                //processRequest(request, response);
+                request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
+                    DBConnector.disconnect();
+            }catch (Exception ex) {
+                    //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Test Exception: " + ex.getMessage());
+            }
+            
         }
         else if(request.getParameter("Search") != null){
             String type = request.getParameter("searchBy");
@@ -144,7 +176,7 @@ public class MainClassificationController extends HttpServlet {
             request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
         }
         else if(request.getParameter("CANCEL") != null){
-            request.getRequestDispatcher("AddMainClassification.jsp").forward(request, response);
+            request.getRequestDispatcher("SearchMainClassification.jsp").forward(request, response);
         }
         
         
