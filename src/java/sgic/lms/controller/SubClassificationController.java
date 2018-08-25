@@ -64,10 +64,17 @@ public class SubClassificationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(request.getParameter("delete") != null){
             SubClassificationDAO scDAO = new SubClassificationDAO();
             String scId = request.getParameter("delete");
             scDAO.DeleteSC(scId);
             request.getRequestDispatcher("SearchSubClassification.jsp").forward(request, response);
+        }
+        if(request.getParameter("edit") != null){
+            
+            request.getRequestDispatcher("EditSubClassification.jsp").forward(request, response);
+            
+        }
     }
 
     /**
