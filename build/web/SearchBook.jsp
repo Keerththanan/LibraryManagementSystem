@@ -17,7 +17,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        
+     
+    <script type="text/javascript">
+        function confirmDelete()
+        {
+            var txt;
+            var r = confirm("Do you want to delete this record?");
+            if (r != true) {
+                return false;
+            }
+        }
+    </script>
     </head>
     <body>
         <%@include file="Shared/header.jsp" %>
@@ -50,7 +60,7 @@
                 </div>
                 <div class="col-md-3 form-group">
                     <label class="col-md-12">&nbsp;</label>
-                    <input type="submit" name="viewAllBooks" value="ViewAllBooks" class="text-center btn ">
+                    <input type="submit" name="viewAllBooks" value="ViewAllBooks" class="text-center btn " >
                 </div>
                 </div>
       
@@ -81,8 +91,8 @@
                     <td>${BookList.getLpy()}</td>
                     <td>${BookList.getIsbn()}</td>
                     <td>${BookList.getNop()}</td>
-                    <td><a href="#"<i id="${BookList.getBookId()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
-                        <a href="SearchBookController"<i id="${BookList.getBookId()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;"></i></a></td>
+                    <td><a href="EditBookController?edit=${BookList.getBookId()}"<i name="edit" value="${BookList.getBookId()}" class="fa fa-edit" style="color: #14ca3d; font-size: 25px"></i></a>
+                        <a href="SearchBookController?delete=${BookList.getBookId()}" onclick="return confirmDelete()" <i name="delete" value="${BookList.getBookId()}" class="fa fa-trash" style="color: #ff0000; font-size: 25px; margin-left: 10px;" ></i></a></td>
                 </tr>
             </c:forEach>
             </tbody>
