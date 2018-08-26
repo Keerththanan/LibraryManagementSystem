@@ -4,6 +4,8 @@
     Author     : Thanan Pathman
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,33 +21,36 @@
         <%@include file="Shared/header.jsp" %>
         <form action="SubClassificationController" method="post">
         <div class="row">
+            
             <div class="col-md-2"></div>
             <div class="col-md-6">
-                
                 <div class="form-group">
                     <label for="classificationID">Classification ID</label>
-                    <input type="text" name="sClassificationID" id="sClassificationID" readonly class="form-control">
+                    <input type="text" name="sClassificationID" id="sClassificationID" value="${scObj.getsClassificationID()}" readonly class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="scName">Sub Classification Name</label>
-                    <input type="text" name="sClassificationName" id="sClassificationName" class="form-control">
+                    <input type="text" name="sClassificationName" id="sClassificationName" value="${scObj.getsClassificationName()}" class="form-control">
                 </div>
-            
+                            
                 <div class="form-group">
                     <label name="MainClassifiacation">Main CLassification</label>
-                    <c:forEach items="" var="">
-                        <select name="mainClassification" class="form-control">
-                            <option> </option>
+                    
+                        <select name="mClassification" class="form-control">
+                            <c:forEach items="${mcList}" var="mc">
+                            <option value="${mc.getmClassificationID()}"> ${mc.getmClassificationName()}</option>
+                            </c:forEach>
                         </select> 
-                    </c:forEach>
+                    
                 </div>               
             </div>
+            
         </div>
             
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-3">
-                <input type = "submit" name="edit" value = "EDIT" class="text-center btn btn-success">
+                <input type = "submit" name="update" value = "UPDATE" class="text-center btn btn-success">
             </div>
             <div class="col-md-4">
             <input type = "submit" name="cancel" value = "CANCEL" class="btn btn-danger">

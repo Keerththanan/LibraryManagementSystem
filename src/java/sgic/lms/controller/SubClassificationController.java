@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sgic.lms.data.DBConnector;
+import sgic.lms.data.MainClassificationDAO;
 import sgic.lms.data.SubClassificationDAO;
+import sgic.lms.model.MainClassification;
 import sgic.lms.model.SubClassification;
 
 /**
@@ -71,6 +73,16 @@ public class SubClassificationController extends HttpServlet {
             request.getRequestDispatcher("SearchSubClassification.jsp").forward(request, response);
         }
         if(request.getParameter("edit") != null){
+            String subId = request.getParameter("edit");
+            SubClassificationDAO scDAO = new SubClassificationDAO();
+            MainClassificationDAO mcDAO = new MainClassificationDAO(); 
+            SubClassification scObj = new SubClassification();
+            scObj = scDAO.SearchSubClassification(subId);
+//            request.setAttribute("sClassificationID", scObj.getsClassificationID());
+//            request.setAttribute("sClassificationName", scObj.getsClassificationName());
+            request.setAttribute("scObj", scObj);
+            ArrayList<MainClassification> mcList = mcDAO.loadMainClassification();
+            request.setAttribute("mcList", mcList);
             
             request.getRequestDispatcher("EditSubClassification.jsp").forward(request, response);
             
@@ -122,6 +134,24 @@ public class SubClassificationController extends HttpServlet {
             SearchedSCList = scDAO.SearchSubClassification(type, value);
             request.setAttribute("SCList", SearchedSCList);
             request.getRequestDispatcher("SearchSubClassification.jsp").forward(request, response);
+        }
+        else if(request.getParameter("update") != null){
+            SubClassification sClassification = new SubClassification();
+            sClassification.setsClassificationID(request.getParameter("sClassificationID"));
+            sClassification.setsClassificationName(request.getParameter("sClassificationName"));
+            String id = request.getParameter("mClassification");
+            sClassification.setmClassificationId(request.getParameter("mClassification"));
+
+            try {
+                SubClassificationDAO.updateSubClassification(sClassification);
+                System.out.println("Done sClassification saving");
+                //processRequest(request, response);
+                request.getRequestDispatcher("AddSubClassification.jsp").forward(request, response);
+                DBConnector.disconnect();
+            }catch (Exception ex) {
+                    //Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Test Exception: " + ex.getMessage());
+            }
         }
         else if(request.getParameter("CANCEL") != null){
             request.getRequestDispatcher("AddSubClassification.jsp").forward(request, response);

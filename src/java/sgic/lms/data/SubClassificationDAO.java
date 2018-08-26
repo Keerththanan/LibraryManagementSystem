@@ -177,6 +177,32 @@ public class SubClassificationDAO {
         return searchResult;
     }
     
+    //OverLoaded method
+    public SubClassification SearchSubClassification(String value){
+        SubClassification searchResult = new SubClassification();
+        String searchQuery = "SELECT * FROM sub_classification sc "
+                + "JOIN main_classification mc ON sc.mClassificationId = mc.mainId "
+                + "WHERE sc.subId = '" + value + "'";
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(searchQuery);
+            while(resultSet.next()){
+                
+                searchResult.setsClassificationID(resultSet.getString("subId"));
+                searchResult.setsClassificationName(resultSet.getString("sClassificationName"));
+                searchResult.setmClassificationId(resultSet.getString("mainId"));
+                searchResult.setmClassificationName(resultSet.getString("mClassificationName"));
+
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error on Searching: " + e);
+        }
+        
+        return searchResult;
+    }
+    
     public static void DeleteSC(String scId){
         String query = "SELECT * from book_detail bd "
                 + "JOIN sub_classification sc ON sc.subId = bd.subClassification "
@@ -200,6 +226,25 @@ public class SubClassificationDAO {
         catch(Exception e){
             System.out.println("Delete exception: " + e);
         }
+    }
+    
+    public static void updateSubClassification(SubClassification sClassification){
+        String sID = sClassification.getsClassificationID();
+        String Name = sClassification.getsClassificationName();
+        String mID = sClassification.getmClassificationId();
+        
+        
+        String updateQuery = "UPDATE sub_classification SET sClassificationName = '" + Name + "', mClassificationId = '" + mID + "' "
+                + "WHERE subId = '" + sID + "'"; //This is how the query should be written for PREPAREDSTATEMENT
+        
+        try{
+            connection = DBConnector.connect();
+            statement = connection.createStatement();
+            statement.executeUpdate(updateQuery);
+        }
+        catch(SQLException e){
+            System.out.println("Error... " + e);
+        }   
     }
     
 }
